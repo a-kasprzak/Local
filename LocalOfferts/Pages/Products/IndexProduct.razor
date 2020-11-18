@@ -1,0 +1,72 @@
+﻿@page "/indexproduct"
+
+@using Microsoft.AspNetCore.Identity
+@using LocalOfferts.Data
+@using LocalOfferts.Service
+@using Microsoft.AspNetCore.Http
+
+@inject UserManager<IdentityUser> UserManager
+@inject IProductService ProductService
+@inject IHttpContextAccessor httpContextAccessor
+@inject NavigationManager NavigationManager
+
+
+<h1>Infromacje o produktach użytkownika @currentUserName</h1>
+
+<button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
+
+@if (products == null)
+{
+    <p>Loading..</p>
+
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Lp</th>
+                <th>Nazwa Produktu</th>
+                <th>Nazwa Użytkownika</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>@product.UserName</td>
+            </tr>
+
+
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    string currentUserName;
+    private string currentValue;
+
+
+    IEnumerable<Product> products;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUserName = httpContextAccessor.HttpContext.User.Identity.Name;
+        products = await ProductService.GetProductsByName(currentUserName);
+
+
+    }
+
+
+    private void ADD()
+    {
+        NavigationManager.NavigateTo("addproduct");
+    }
+
+}

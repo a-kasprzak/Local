@@ -1,0 +1,69 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service
+@using Microsoft.AspNetCore.Http
+
+
+@page "/addproduct"
+@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+@inject IHttpContextAccessor httpContextAccessor
+
+
+<h1>Dodaj Produkt</h1>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group">
+                <label for="ProductName" class="col-form-label">Nazwa Produktu</label>
+                <input for="ProductName" class="form-control" @bind="@product.ProductName" />
+            </div>
+            <div class="form-group">
+                <label for="ProductPrice" class="col-form-label">Cena</label>
+                <input for="ProductPrice" class="form-control" @bind="@product.ProductPrice" />
+            </div>
+            <div class="form-group">
+                <label for="ProductDescripion" class="col-form-label">Opis Produktu</label>
+                <input for="ProductDescripion" class="form-control" @bind="@product.ProductDescription" />
+            </div>
+            <div class="form-group">
+                <label for="ShopeName" class="col-form-label">Nazwa Sklepu</label>
+                <input for="ShopeName" class="form-control" @bind="@product.ShopeName" />
+            </div>          
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateProduct" value="Save" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+@code {
+
+    Product product = new Product();
+
+    private string userName;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userName = httpContextAccessor.HttpContext.User.Identity.Name;
+    }
+
+    protected async Task CreateProduct()
+    {
+        await ProductService.CreateProduct(product, userName);
+        NavigationManager.NavigateTo("indexproduct");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("indexproduct");
+    }
+}     

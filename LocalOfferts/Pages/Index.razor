@@ -1,0 +1,71 @@
+﻿@page "/"
+
+@using LocalOfferts.Data
+@using LocalOfferts.Service
+@inject IProductService ProductService
+
+<style>
+    .card {
+        box-shadow: 0 0 1em grey;
+        padding: 4px 3px;
+        border-radius: 15px/5px;
+    }
+</style>
+
+
+@if (products == null)
+{
+    <p>Loading..</p>
+
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var pro in products)
+            {
+                <div class="container-xl">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <p>@pro.ProductName</p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <div class="card-footer">
+                            <input class="btn btn-primary" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="col-sm">
+                </div>
+
+            }
+
+        </div>
+    </div>
+    <br />
+
+}
+
+
+
+
+
+@code
+{
+    IEnumerable<Product> products;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        products = await ProductService.GetProducts();
+
+    }
+
+
+}
