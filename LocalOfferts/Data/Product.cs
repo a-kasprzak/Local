@@ -15,8 +15,8 @@ namespace LocalOfferts.Data
         public string ProductName { get; set; }
 
         [Required]
-        public decimal ProductPrice { get; set; }
-        
+        public double ProductPrice { get; set; }
+
         public string ProductDescription { get; set; }
 
         [Required]

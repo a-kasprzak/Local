@@ -23,7 +23,7 @@ namespace LocalOfferts.Service
             var parameters = new DynamicParameters();
             parameters.Add("ProductName", product.ProductName, DbType.String);
             parameters.Add("ProductDescription", product.ProductDescription, DbType.String);
-            parameters.Add("ProductPrice", product.ProductPrice, DbType.Decimal);
+            parameters.Add("ProductPrice", product.ProductPrice, DbType.Double);
             parameters.Add("ShopeName", product.ShopeName, DbType.String);
             parameters.Add("CreationDate", product.CreationDate, DbType.DateTime);
             parameters.Add("UserName", product.UserName, DbType.String);
@@ -159,15 +159,16 @@ namespace LocalOfferts.Service
 
         public async Task<bool> EditProduct(int productId, Product product)
         {
-
-            using(var conn = new SqlConnection(_configuration.Value))
+            
+            using (var conn = new SqlConnection(_configuration.Value))
             {
+
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = $"UPDATE dbo.Products set ProductName = @ProductName WHERE UserName = '{productId}'";
+                string query = $"UPDATE dbo.Products set ProductName = @ProductName, ProductPrice = @ProductPrice , ProductDescription = @ProductDescription, ShopeName = @ShopeName WHERE ProductId = {productId}";
                 try
                 {
-                    await conn.ExecuteAsync(query, new { product.ProductName, productId }, commandType: CommandType.Text);
+                    await conn.ExecuteAsync(query, new { product.ProductName, product.ProductPrice, product.ProductDescription, product.ShopeName, productId }, commandType: CommandType.Text);
                 }
                 catch (Exception ex)
                 {
