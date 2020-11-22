@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="#"> Welcome ! </a>
+    <a class="navbar-brand" href="#">  </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,7 +15,6 @@
 
     .navbar-brand {
         font-family: cursive;
-        
     }
 </style>
 
@@ -29,7 +28,7 @@
             <div class="card" style="width:8rem">
                 <div class="card-img-top">
                     <center> <img class="card-img-top" src="/css/static/zdj.jpg" alt="Card image cap"> </center>
-                    <center> <a href="Product">@context.User.Identity.Name!</a> </center>
+                    <center> <a href="indexproduct">@context.User.Identity.Name!</a> </center>
                 </div>
             </div>
         </Authorized>
