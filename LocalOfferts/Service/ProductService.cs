@@ -104,5 +104,30 @@ namespace LocalOfferts.Service
             }
             return products;
         }
+
+        public async Task<bool> DeleteProduct(int ProductId)
+        {
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                string query = $"DELETE from dbo.Products where ProductId={ProductId}";
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                try
+                {
+                    await conn.ExecuteAsync(query, new { ProductId }, commandType: CommandType.Text);
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+
+                }
+            }
+            return true;
+        }
+
     }
 }
