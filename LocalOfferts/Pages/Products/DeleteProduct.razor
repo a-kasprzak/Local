@@ -1,0 +1,20 @@
+﻿@using LocalOfferts.Service
+@using LocalOfferts.Data
+
+@page "/deleteProduct/{id:int}"
+@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+
+
+<h2>Potwierdz usunięcie</h2>
+<p>Czy jesteś pewien że chcesz usunąć dany produkt?</p>
+<br />
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    Product product = new Product();
+
+  
+}
