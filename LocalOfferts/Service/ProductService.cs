@@ -157,5 +157,31 @@ namespace LocalOfferts.Service
             return product;
         }
 
+        public async Task<bool> EditProduct(int productId, Product product)
+        {
+
+            using(var conn = new SqlConnection(_configuration.Value))
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                string query = $"UPDATE dbo.Products set ProductName = @ProductName WHERE UserName = '{productId}'";
+                try
+                {
+                    await conn.ExecuteAsync(query, new { product.ProductName, productId }, commandType: CommandType.Text);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+                }
+            }
+            return true;
+
+
+        }
+
     }
 }
