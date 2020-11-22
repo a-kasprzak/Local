@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
@@ -6,5 +6,23 @@
 
 <header>
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
+    <p>test .</p>
 </header>
+
+
+
+
+@using Microsoft.AspNetCore.Identity
+@attribute [IgnoreAntiforgeryToken]
+@inject SignInManager<IdentityUser> SignInManager
+@functions {
+    public async Task<IActionResult> OnPost()
+    {
+        if (SignInManager.IsSignedIn(User))
+        {
+            await SignInManager.SignOutAsync();
+        }
+
+        return Redirect("~/");
+    }
+}
