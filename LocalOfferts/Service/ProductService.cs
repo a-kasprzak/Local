@@ -105,16 +105,16 @@ namespace LocalOfferts.Service
             return products;
         }
 
-        public async Task<bool> DeleteProduct(int ProductId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             using (var conn = new SqlConnection(_configuration.Value))
             {
-                string query = $"DELETE from dbo.Products where ProductId={ProductId}";
+                string query = $"DELETE from dbo.Products where ProductId={productId}";
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
                 try
                 {
-                    await conn.ExecuteAsync(query, new { ProductId }, commandType: CommandType.Text);
+                    await conn.ExecuteAsync(query, new { productId }, commandType: CommandType.Text);
                 }
                 catch(Exception ex)
                 {
@@ -127,6 +127,34 @@ namespace LocalOfferts.Service
                 }
             }
             return true;
+        }
+
+        public async Task<Product> SingleProduct(int productId)
+        {
+            Product product = new Product();
+
+            using (var conn = new SqlConnection(_configuration.Value)) 
+            {
+                string query = $"SELECT * from dbo.Products WHERE ProductId={productId}";
+
+                if (conn.State == ConnectionState.Open) conn.Close();
+
+                try
+                {
+                    await conn.ExecuteAsync(query, new { product.ProductName, product.ProductDescription, product.ProductPrice, productId}, commandType: CommandType.Text);
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+                }    
+ 
+            }
+
+            return product;
         }
 
     }

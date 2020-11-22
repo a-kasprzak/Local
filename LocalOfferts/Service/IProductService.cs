@@ -9,6 +9,7 @@ namespace LocalOfferts.Service
         Task<bool> CreateProduct(Product product,string userName);
         Task<IEnumerable<Product>> GetProductsByName(string userName);
         Task<IEnumerable<Product>> GetProducts();
-        Task<bool> DeleteProduct(int ProductId);
+        Task<bool> DeleteProduct(int productId);
+        Task<Product> SingleProduct(int productId);
     }
 }
