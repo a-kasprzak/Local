@@ -1,0 +1,61 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service
+
+@page "/editproduct/{id:int}"
+@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+
+
+<h2>Edytuj Produkt</h2>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="ProductName" class="control-label">Nazwa Produktu</label>
+                <input for="ProductName" class="form-control" @bind="@product.ProductName" />
+            </div>
+            <div class="form-group">
+                <label for="ProductPrice" class="control-label">Cena Produktu</label>
+                <input type="number" step="0.01" for="ProductPrice" class="form-control" @bind="@product.ProductPrice" />
+            </div>
+            <div class="form-group">
+                <label for="ProductDescription" class="control-label">Opis Produktu</label>
+                <input for="ProductDescription" class="form-control" @bind="@product.ProductDescription" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Nazwa sklepu</label>
+                <input for="Name" class="form-control" @bind="@product.ShopeName" />
+            </div>
+       </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@updateProduct" value="Update" />
+            <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    Product product = new Product();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.SingleProduct(id);
+    }
+
+    protected async Task updateProduct()
+    {
+        await ProductService.EditProduct(id, product);
+        NavigationManager.NavigateTo("indexproduct");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("indexproduct");
+    }
+
+}
