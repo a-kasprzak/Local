@@ -47,6 +47,13 @@
                 </NavLink>
             </li>
         </AuthorizeView>
+        <AuthorizeView Roles="Administrators">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="adminProductList">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Usuń z DB produkty
+                </NavLink>
+            </li>
+        </AuthorizeView>
         <AuthorizeView Roles="Users">
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="indexproduct">

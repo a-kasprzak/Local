@@ -1,0 +1,69 @@
+﻿@using LocalOfferts.Service
+@using LocalOfferts.Data
+
+@page "/admindeleteproduct/{id:int}"
+@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+
+
+<AuthorizeView Roles="Administrators">
+    <Authorized>
+        <h2>Potwierdź usunięcie</h2>
+        <p>Czy jesteś pewien że chcesz usunąć dany produkt?</p>
+        <br />
+
+        <div class="col-md-4">
+            <table class="table">
+                <tr>
+                    <td>Lp</td>
+                    <td>@product.ProductId</td>
+                </tr>
+                <tr>
+                    <td>Nazwa</td>
+                    <td>@product.ProductName</td>
+                </tr>
+                <tr>
+                    <td>Cena</td>
+                    <td>@product.ProductPrice</td>
+                </tr>
+                <tr>
+                    <td>Opis</td>
+                    <td>@product.ProductDescription</td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
+                <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Authentication Failure!</h1>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+    
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    Product product = new Product();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.SingleProduct(id);
+    }
+
+    protected async Task Delete()
+    {
+        await ProductService.DeleteProduct(id);
+        NavigationManager.NavigateTo("adminproductlist");
+
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("adminproductlist");
+    }
+
+}
