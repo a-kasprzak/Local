@@ -129,19 +129,19 @@ namespace LocalOfferts.Service
             return true;
         }
 
-        public async Task<Product> SingleProduct(int productId)
+        public async Task<Product> SingleProduct(int id)
         {
             Product product = new Product();
 
             using (var conn = new SqlConnection(_configuration.Value)) 
             {
-                string query = $"SELECT * from dbo.Products WHERE ProductId={productId}";
+                string query = $"SELECT * from dbo.Products WHERE ProductId={id}";
 
                 if (conn.State == ConnectionState.Open) conn.Close();
 
                 try
                 {
-                    await conn.ExecuteAsync(query, new { product.ProductName, product.ProductDescription, product.ProductPrice, productId}, commandType: CommandType.Text);
+                    product = await conn.QueryFirstOrDefaultAsync<Product>(query, new { id }, commandType: CommandType.Text);
                 }
                 catch(Exception ex)
                 {

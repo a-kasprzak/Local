@@ -10,6 +10,6 @@ namespace LocalOfferts.Service
         Task<IEnumerable<Product>> GetProductsByName(string userName);
         Task<IEnumerable<Product>> GetProducts();
         Task<bool> DeleteProduct(int productId);
-        Task<Product> SingleProduct(int productId);
+        Task<Product> SingleProduct(int id);
     }
 }
