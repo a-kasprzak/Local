@@ -6,56 +6,67 @@
 @inject IProductService ProductService
 
 
-<h2>Potwierdź usunięcie</h2>
-<p>Czy jesteś pewien że chcesz usunąć dany produkt?</p>
-<br />
-
-<div class="col-md-4">
-    <table class="table">
-        <tr>
-            <td>Lp</td>
-            <td>@product.ProductId</td>
-        </tr>
-        <tr>
-            <td>Nazwa</td>
-            <td>@product.ProductName</td>
-        </tr>
-        <tr>
-            <td>Cena</td>
-            <td>@product.ProductPrice</td>
-        </tr>
-        <tr>
-            <td>Opis</td>
-            <td>@product.ProductDescription</td>
-        </tr>
-    </table>
-    <div class="form-group">
-        <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
-        <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
-    </div>
+<div class="oi-header">
+    <h2 class="text-black-50 text-center "> Potwierdź usunięcie</h2>
+    <h2 class="text-black-50 text-center "> Czy jesteś pewien że chcesz usunąć dany produkt?    </h2>
+    <br />
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+            <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                <tr>
+                    <th>Lp</th>
+                    <th>Nazwa Produktu</th>
+                  
+                </tr>
+            </thead>
+            <tr>
+                <td>Lp</td>
+                <td>@product.ProductId</td>
+            </tr>
+            <tr>
+                <td>Nazwa</td>
+                <td>@product.ProductName</td>
+            </tr>
+            <tr>
+                <td>Cena</td>
+                <td>@product.ProductPrice</td>
+            </tr>
+            <tr>
+                <td>Opis</td>
+                <td>@product.ProductDescription</td>
+            </tr>
+        </table>
+        <div class="form-group">
+            <input type="button" value="Delete" @onclick="@Delete" class="btn btn-danger" />
+            <input type="button" value="Cancel" @onclick="@Cancel" class="btn btn-warning" />
+        </div>
+    </div>
+    </div>
 
-@code {
-    [Parameter]
-    public int id { get; set; }
-    Product product = new Product();
 
-    protected override async Task OnInitializedAsync()
-    {
-        product = await ProductService.SingleProduct(id);
+    @code {
+        [Parameter]
+        public int id { get; set; }
+        Product product = new Product();
+
+        protected override async Task OnInitializedAsync()
+        {
+            product = await ProductService.SingleProduct(id);
+        }
+
+        protected async Task Delete()
+        {
+            await ProductService.DeleteProduct(id);
+            NavigationManager.NavigateTo("indexproduct");
+
+        }
+
+        void Cancel()
+        {
+            NavigationManager.NavigateTo("indexproduct");
+        }
+
     }
-
-    protected async Task Delete()
-    {
-        await ProductService.DeleteProduct(id);
-        NavigationManager.NavigateTo("indexproduct");
-
-    }
-
-    void Cancel()
-    {
-        NavigationManager.NavigateTo("indexproduct");
-    }
-
-}

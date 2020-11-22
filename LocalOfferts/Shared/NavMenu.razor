@@ -9,7 +9,7 @@
 
 
     .card {
-        margin-left: 50px;
+        margin-left: auto;
         margin-right: auto;
         box-shadow: 0 0 1em grey;
         padding: 4px 3px;
@@ -27,7 +27,7 @@
         <Authorized>
             <div class="card" style="width:8rem">
                 <div class="card-img-top">
-                    <center> <img class="card-img-top" src="/css/static/zdj.jpg" alt="Card image cap"> </center>
+                    <center> <img class="card-img-top" src="/css/static/zdjprofil.png" alt="Card image cap"> </center>
                     <center> <a href="indexproduct">@context.User.Identity.Name!</a> </center>
                 </div>
             </div>
@@ -68,14 +68,17 @@
                 </NavLink>
             </li>
         </AuthorizeView>
+        <AuthorizeView Roles="Users">
+            <form method="post" action="Identity/Account/LogOut">
+                <button type="submit" class="btn btn-dark btn-lg btn-block">Log out</button>
+            </form>
+        </AuthorizeView>
     </ul>
 </div>
 
 
 
-<form method="post" action="Identity/Account/LogOut">
-    <button type="submit" class="btn btn-primary btn-lg">Log out</button>
-</form>
+
 
 
 
