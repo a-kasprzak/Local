@@ -6,9 +6,30 @@
 @inject IProductService ProductService
 
 
-<h2>Potwierdz usunięcie</h2>
+<h2>Potwierdź usunięcie</h2>
 <p>Czy jesteś pewien że chcesz usunąć dany produkt?</p>
 <br />
+
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>Nazwa</td>
+            <td>@product.ProductName</td>
+        </tr>
+        <tr>
+            <td>Cena</td>
+            <td>@product.ProductPrice</td>
+        </tr>
+        <tr>
+            <td>Opis</td>
+            <td>@product.ProductDescription</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
+        <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
+    </div>
+</div>
 
 
 @code {
@@ -16,5 +37,21 @@
     public int id { get; set; }
     Product product = new Product();
 
-  
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.SingleProduct(id);
+    }
+
+    protected async Task Delete()
+    {
+        await ProductService.DeleteProduct(id);
+        NavigationManager.NavigateTo("indexproduct");
+
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("indexproduct");
+    }
+
 }
