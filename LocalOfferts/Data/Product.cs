@@ -28,5 +28,7 @@ namespace LocalOfferts.Data
         [Required]
         public string UserName { get; set; }
 
+        public byte[] Image { get; set; }
+
     }
 }

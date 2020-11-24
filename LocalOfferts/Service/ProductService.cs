@@ -27,6 +27,8 @@ namespace LocalOfferts.Service
             parameters.Add("ShopeName", product.ShopeName, DbType.String);
             parameters.Add("CreationDate", product.CreationDate, DbType.DateTime);
             parameters.Add("UserName", product.UserName, DbType.String);
+            parameters.Add("Image", product.Image, DbType.Byte);
+
 
             using (var conn = new SqlConnection(_configuration.Value))
             {
@@ -34,7 +36,7 @@ namespace LocalOfferts.Service
 
                 try
                 {
-                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName) VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{userName}')";
+                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName,Image) VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{userName}',@Image)";
                     await conn.ExecuteAsync(query, product);
                 }
                 catch (Exception ex)
