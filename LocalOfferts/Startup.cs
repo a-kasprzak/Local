@@ -43,6 +43,7 @@ namespace LocalOfferts
             services.AddServerSideBlazor();
             services.AddHttpContextAccessor();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IFileUpload, FileUpload>();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("DefaultConnection"));
