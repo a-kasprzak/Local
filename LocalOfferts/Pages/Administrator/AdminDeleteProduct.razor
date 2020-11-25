@@ -12,31 +12,37 @@
         <p>Czy jesteś pewien że chcesz usunąć dany produkt?</p>
         <br />
 
-        <div class="col-md-4">
-            <table class="table">
-                <tr>
-                    <td>Lp</td>
-                    <td>@product.ProductId</td>
-                </tr>
-                <tr>
-                    <td>Nazwa</td>
-                    <td>@product.ProductName</td>
-                </tr>
-                <tr>
-                    <td>Cena</td>
-                    <td>@product.ProductPrice</td>
-                </tr>
-                <tr>
-                    <td>Opis</td>
-                    <td>@product.ProductDescription</td>
-                </tr>
-            </table>
-            <div class="form-group">
-                <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
-                <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
+        
+        <div class="container-fluid">
+            <div class="row">
+                <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                    <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                        <tr>
+                            <td>Lp</td>
+                            <td>@product.ProductId</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>Nazwa</td>
+                        <td>@product.ProductName</td>
+                    </tr>
+                    <tr>
+                        <td>Cena</td>
+                        <td>@product.ProductPrice</td>
+                    </tr>
+                    <tr>
+                        <td>Opis</td>
+                        <td>@product.ProductDescription</td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
+                    <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
+                </div>
             </div>
-        </div>
-    </Authorized>
+            </div>
+
+</Authorized>
     <NotAuthorized>
         <h1>Authentication Failure!</h1>
         <p>You're not signed in.</p>

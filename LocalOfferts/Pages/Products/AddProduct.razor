@@ -20,7 +20,7 @@
             <form>
                 <div class="form-group">
                     <EditForm Model="@product">
-                        <InputFile OnChange="HandleFileSelected"></InputFile> 
+                        <InputFile OnChange="HandleFileSelected"></InputFile>
                     </EditForm>
                 </div>
                 <div class="form-group">
@@ -63,7 +63,7 @@
 @code {
 
     Product product = new Product();
-    
+
     public byte[] ImageUpload { get; set; }
     private string userName;
 
@@ -87,8 +87,8 @@
 
     async Task HandleFileSelected(IFileListEntry[] files)
     {
-        var file =  files.FirstOrDefault();
-        if (file !=null)
+        var file = files.FirstOrDefault();
+        if (file != null)
         {
             var ms = new MemoryStream();
             await file.Data.CopyToAsync(ms);
