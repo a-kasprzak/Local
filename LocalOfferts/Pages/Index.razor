@@ -11,6 +11,8 @@
         padding: 4px 3px;
         border-radius: 15px/5px;
     }
+   
+   
 </style>
 
 
@@ -21,17 +23,18 @@
 }
 else
 {
-
+    
     <div class="container">
-        <div class="card-columns">
-            @foreach (var pro in products)
-            {
+        
+            <div class="card-columns">
+                @foreach (var pro in products)
+                {
 
-                <div class="container-xl">
-                    <div class="card" style="width: 18rem;">
+
+                    <div class="card" >
                         @if (pro.Image is null)
                         {
-                            <img height="200px" class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
                         }
                         else
                         {
@@ -39,24 +42,22 @@ else
                         }
 
                         <div class="card-body">
-                            <p>@pro.ProductName</p>
+                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
                         </div>
                         <div class="card-footer">
-                            <input class="btn btn-primary" />
-                        </div>
+                            <button type="button" class="btn btn-outline-secondary"> check </button></div>
                     </div>
                     <br />
-                </div>
-                <div class="col-sm">
-                </div>
 
-            }
+                   
 
+                }
 
+            </div>
         </div>
-    </div>
+ 
     <br />
 
 

@@ -10,47 +10,48 @@
 <div class="col-md-7" style="margin:0 auto;">
     <div class="card">
         <div class="card-body">
-                <EditForm Model="@registration" OnValidSubmit="@HandleValidSubmit">
-                    <DataAnnotationsValidator />
+            <EditForm Model="@registration" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
 
-                    <div class="form-group row">
-                        <label class="col-form-label" for="Name">Imie</label>
-                        <div class="col-sm-10">
-                            <InputText class="form-control" id="Name" @bind-Value="registration.Name"></InputText>
-                            <ValidationMessage For="@(()=> registration.Name)"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label" for="Name">Email</label>
-                        <div class="col-sm-10">
-                            <InputText class="form-control" id="Name" @bind-Value="registration.Email"></InputText>
-                            <ValidationMessage For="@(()=> registration.Email)"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label" for="Name">Nazwa sklepu</label>
-                        <div class="col-sm-10">
-                            <InputText class="form-control" id="Name" @bind-Value="registration.ShopName"></InputText>
-                            <ValidationMessage For="@(()=> registration.ShopName)"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label" for="Name">Numer telefonu</label>
-                        <div class="col-sm-10">
-                            <InputText class="form-control" id="Name" @bind-Value="registration.PhoneNumber"></InputText>
-                            <ValidationMessage For="@(()=> registration.PhoneNumber)"></ValidationMessage>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label" for="Name">Miasto</label>
-                        <div class="col-sm-10">
-                            <InputText class="form-control" id="Name" @bind-Value="registration.City"></InputText>
-                            <ValidationMessage For="@(()=> registration.City)"></ValidationMessage>
-                        </div>
-                    </div>
+                <div class="form-group ">
+                    <label class="col-form-label" for="Name">Imie</label>
 
-                    <button type="submit">Submit</button>
-                </EditForm>
+                    <InputText class="form-control" id="Name" @bind-Value="registration.Name"></InputText>
+                    <ValidationMessage For="@(()=> registration.Name)"></ValidationMessage>
+
+
+                </div>
+                <div class="form-group ">
+                    <label class="col-form-label" for="Name">Email</label>
+
+                    <InputText class="form-control" id="Name" @bind-Value="registration.Email"></InputText>
+                    <ValidationMessage For="@(()=> registration.Email)"></ValidationMessage>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="Name">Nazwa sklepu</label>
+
+                    <InputText class="form-control" id="Name" @bind-Value="registration.ShopName"></InputText>
+                    <ValidationMessage For="@(()=> registration.ShopName)"></ValidationMessage>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="Name">Numer telefonu</label>
+
+                    <InputText class="form-control" id="Name" @bind-Value="registration.PhoneNumber"></InputText>
+                    <ValidationMessage For="@(()=> registration.PhoneNumber)"></ValidationMessage>
+
+                </div>
+                <div class="form-group">
+                    <label class="form-control" for="Name">Miasto</label>
+
+                    <InputText class="form-control" id="Name" @bind-Value="registration.City"></InputText>
+                    <ValidationMessage For="@(()=> registration.City)"></ValidationMessage>
+
+                </div>
+
+                <button type="submit">Submit</button>
+            </EditForm>
         </div>
     </div>
 </div>
