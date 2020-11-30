@@ -6,55 +6,60 @@
 @inject NavigationManager NavigationManager
 @inject IRegistrationService RegistrationService
 
+    <p class="font-weight-normal"></p>
 
-<div class="col-md-7" style="margin:0 auto;">
-    <div class="card">
-        <div class="card-body">
-            <EditForm Model="@registration" OnValidSubmit="@HandleValidSubmit">
-                <DataAnnotationsValidator />
+    
+    <h2 style="text-align: center">Wypełnij i wyślij formularz aby zarejestrować się</h2>
+   
 
-                <div class="form-group ">
-                    <label class="col-form-label" for="Name">Imie</label>
+    <div class="col-md-7" style="margin:0 auto;">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@registration" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
 
-                    <InputText class="form-control" id="Name" @bind-Value="registration.Name"></InputText>
-                    <ValidationMessage For="@(()=> registration.Name)"></ValidationMessage>
+                    <div class="form-group ">
+                        <label class="col-form-label" for="Name">Imie</label>
+
+                        <InputText class="form-control" id="Name" @bind-Value="registration.Name"></InputText>
+                        <ValidationMessage For="@(()=> registration.Name)"></ValidationMessage>
 
 
-                </div>
-                <div class="form-group ">
-                    <label class="col-form-label" for="Name">Email</label>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-form-label" for="Email">Email</label>
 
-                    <InputText class="form-control" id="Name" @bind-Value="registration.Email"></InputText>
-                    <ValidationMessage For="@(()=> registration.Email)"></ValidationMessage>
+                        <InputText class="form-control" id="Email" @bind-Value="registration.Email"></InputText>
+                        <ValidationMessage For="@(()=> registration.Email)"></ValidationMessage>
 
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label" for="Name">Nazwa sklepu</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="ShopName">Nazwa sklepu</label>
 
-                    <InputText class="form-control" id="Name" @bind-Value="registration.ShopName"></InputText>
-                    <ValidationMessage For="@(()=> registration.ShopName)"></ValidationMessage>
+                        <InputText class="form-control" id="ShopName" @bind-Value="registration.ShopName"></InputText>
+                        <ValidationMessage For="@(()=> registration.ShopName)"></ValidationMessage>
 
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label" for="Name">Numer telefonu</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="PhoneNumber">Numer telefonu</label>
 
-                    <InputText class="form-control" id="Name" @bind-Value="registration.PhoneNumber"></InputText>
-                    <ValidationMessage For="@(()=> registration.PhoneNumber)"></ValidationMessage>
+                        <InputText class="form-control" id="PhoneNumber" @bind-Value="registration.PhoneNumber"></InputText>
+                        <ValidationMessage For="@(()=> registration.PhoneNumber)"></ValidationMessage>
 
-                </div>
-                <div class="form-group">
-                    <label class="form-control" for="Name">Miasto</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="City">Miasto</label>
 
-                    <InputText class="form-control" id="Name" @bind-Value="registration.City"></InputText>
-                    <ValidationMessage For="@(()=> registration.City)"></ValidationMessage>
+                        <InputText class="form-control" id="City" @bind-Value="registration.City"></InputText>
+                        <ValidationMessage For="@(()=> registration.City)"></ValidationMessage>
 
-                </div>
+                    </div>
 
-                <button type="submit">Submit</button>
-            </EditForm>
+                    <button class="btn btn-success" type="submit">Wyślij</button>
+                </EditForm>
+            </div>
         </div>
     </div>
-</div>
 
 
 
@@ -63,13 +68,13 @@
 
 
 
-@code {
+    @code {
 
-    private LocalOfferts.Data.Registration registration = new Data.Registration();
+        private LocalOfferts.Data.Registration registration = new Data.Registration();
 
-    async Task HandleValidSubmit()
-    {
-        await RegistrationService.CreateRegistration(registration);
-        NavigationManager.NavigateTo("/");
+        async Task HandleValidSubmit()
+        {
+            await RegistrationService.CreateRegistration(registration);
+            NavigationManager.NavigateTo("/");
+        }
     }
-}

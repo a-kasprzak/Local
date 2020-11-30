@@ -9,53 +9,54 @@
 @inject IProductService ProductService
 @inject IHttpContextAccessor httpContextAccessor
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Users")]
 
 
 
 <h2 class="text-black-50 text-center "> Twoje produkty  </h2>
 
-    <button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
-<br /> 
-<br /> 
+<button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
+<br />
+<br />
 
-    @if (products == null)
-    {
-        <p>Loading..</p>
+@if (products == null)
+{
+    <p>Loading..</p>
 
-    }
-    else
-    {
-<div class="container-fluid">
-    <div class="row">
-        <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
-            <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
-                <tr>
-                    <th>Lp</th>
-                    <th>Nazwa Produktu</th>
-                    <th> Delete/Edit </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in products)
-                {
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
                     <tr>
-                        <td>@product.ProductId</td>
-                        <td>@product.ProductName</td>
-                        <td>
-                            <a href='/deleteproduct/@product.ProductId'>Delete</a>
-                            <a href='/editproduct/@product.ProductId'>Edit</a>
-                        </td>
+                        <th>Lp</th>
+                        <th>Nazwa Produktu</th>
+                        <th> Delete/Edit </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var product in products)
+                    {
+                        <tr>
+                            <td>@product.ProductId</td>
+                            <td>@product.ProductName</td>
+                            <td>
+                                <a href='/deleteproduct/@product.ProductId'>Delete</a>
+                                <a href='/editproduct/@product.ProductId'>Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    </div>
-    }
+}
 
-    @code {
+@code {
 
-        string currentUserName;
+    string currentUserName;
     private string currentValue;
 
 
@@ -76,4 +77,4 @@
         NavigationManager.NavigateTo("addproduct");
     }
 
-    }
+}

@@ -8,6 +8,7 @@
 @inject IProductService ProductService
 @inject IHttpContextAccessor httpContextAccessor
 @inject IFileUpload fileUpload
+@attribute [Authorize(Roles = "Users")]
 
 <div class="oi-header">
     <h2 class="text-black-50 text-center "> Dodaj Produkt</h2>
