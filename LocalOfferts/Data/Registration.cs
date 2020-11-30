@@ -10,18 +10,24 @@ namespace LocalOfferts.Data
     {
         [Key]
         public int id { get; set; }
-        [Required(ErrorMessage = "Imie musi zostać wprowadzone")]
-        [MinLength(2)]
-        public string Name { get; set; }
-        [Required(ErrorMessage = "Nazwa skelpu musi zostać wprowadzona")]
-        public string ShopName { get; set; }
-        [Required(ErrorMessage = "Nazwa miasta musi zostać wprowadzona")]
-        public string City { get; set; }
+
         [Required]
-        [MinLength(9)]
+        [MinLength(2, ErrorMessage = "Name is too short")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Cannot be empty")]
+        public string ShopName { get; set; }
+
+        [Required(ErrorMessage = "Cannot be empty")]
+        public string City { get; set; }
+
+        [Required]
+        [MinLength(9, ErrorMessage = "Minimum 9 digitals")]
         public string PhoneNumber { get; set; }
+
         [Required]
         public DateTime CreationDate { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

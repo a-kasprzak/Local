@@ -1,0 +1,55 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service 
+
+@page "/adminregistrationlist"
+@inject IRegistrationService RegistrationService
+@attribute [Authorize(Roles = "Administrators")]
+
+<h3>AdminRegistrationList</h3>
+
+@if (registrations == null)
+{
+    <p>Loading..</p>
+
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                    <tr>
+                        <th>Lp</th>
+                        <th>Imie</th>
+                        <th>Email</th>
+                        <th>Numer telefonu</th>
+                        <th>Miasto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var form in registrations)
+                    {
+                        <tr>
+                            <td>@form.id</td>
+                            <td>@form.Name</td>
+                            <td>@form.Email</td>
+                            <td>@form.PhoneNumber</td>
+                            <td>@form.City</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    IEnumerable<Registration> registrations;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        registrations = await RegistrationService.GetRegistrationList();
+
+    }
+}
