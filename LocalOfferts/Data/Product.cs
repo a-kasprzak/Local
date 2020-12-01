@@ -12,10 +12,17 @@ namespace LocalOfferts.Data
         public int ProductId { get; set; }
 
         [Required]
+        [MinLength(2, ErrorMessage = "Name is too short")]
         public string ProductName { get; set; }
 
         [Required]
         public double ProductPrice { get; set; }
+
+        [Required]
+        public string ProductType { get; set; }
+
+        [Required]
+        public string City { get; set; }
 
         public string ProductDescription { get; set; }
 
