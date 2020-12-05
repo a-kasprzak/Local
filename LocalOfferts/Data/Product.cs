@@ -12,7 +12,6 @@ namespace LocalOfferts.Data
         public int ProductId { get; set; }
 
         [Required]
-        [MinLength(2, ErrorMessage = "Name is too short")]
         public string ProductName { get; set; }
 
         [Required]
@@ -24,6 +23,7 @@ namespace LocalOfferts.Data
         [Required]
         public string City { get; set; }
 
+        [MaxLength(200,ErrorMessage ="Max 200 znaków")]
         public string ProductDescription { get; set; }
 
         [Required]
@@ -32,7 +32,6 @@ namespace LocalOfferts.Data
         [Required]
         public DateTime CreationDate { get; set; }
 
-        [Required]
         public string UserName { get; set; }
 
         public byte[] Image { get; set; }
