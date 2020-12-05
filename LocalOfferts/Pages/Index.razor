@@ -11,8 +11,6 @@
         padding: 4px 3px;
         border-radius: 15px/5px;
     }
-   
-   
 </style>
 
 
@@ -23,41 +21,50 @@
 }
 else
 {
-    
+
+<div class="form-group has-search">
+    <span class="glyphicon glyphicon-name"></span>
+    <input type="text" class="form-control" placeholder="Wyszukaj..."
+           @bind="Filter"
+           @bind:event="oninput" />
+</div>
+    <br />
     <div class="container">
-        
-            <div class="card-columns">
-                @foreach (var pro in products)
-                {
 
+        <div class="card-columns">
+            @foreach (var pro in products)
+            {
+                if (!IsVisible(pro))
+                    continue;
 
-                    <div class="card" >
-                        @if (pro.Image is null)
-                        {
-                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
-                        }
-                        else
-                        {
-                            <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
-                        }
+                <div class="card">
+                    @if (pro.Image is null)
+                    {
+                        <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                    }
+                    else
+                    {
+                        <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
+                    }
 
-                        <div class="card-body">
-                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-outline-secondary"> check </button></div>
+                    <div class="card-body">
+                        <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h7>Data utworzenia : @pro.CreationDate</h7>
                     </div>
-                    <br />
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-outline-secondary"> check </button>
+                    </div>
+                </div>
+                <br />
 
-                   
 
-                }
 
-            </div>
+            }
+
         </div>
- 
+    </div>
+
     <br />
 
 
@@ -70,12 +77,25 @@ else
 @code
 {
     IEnumerable<Product> products;
+    public string Filter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
 
         products = await ProductService.GetProducts();
 
+    }
+
+    public bool IsVisible(Product product)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+
+
+        if (product.ProductName.ToLower().ToString().StartsWith(Filter))
+            return true;
+
+        return false;
     }
 
     string convertImageToDisplay(byte[] image)
@@ -88,6 +108,8 @@ else
         }
         return "";
     }
+
+
 
 }
 
