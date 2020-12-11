@@ -78,5 +78,57 @@ namespace LocalOfferts.Service
             return registrations;
         }
 
+        public async Task<bool> DeleteRegistration(int id)
+        {
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                string query = $"DELETE from dbo.Registration where id={id}";
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                try
+                {
+                    await conn.ExecuteAsync(query, new { id }, commandType: CommandType.Text);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+
+                }
+            }
+            return true;
+        }
+
+        public async Task<Registration> SingleRegistration(int id)
+        {
+            Registration registration = new Registration();
+
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                string query = $"SELECT * from dbo.Registration WHERE id={id}";
+
+                if (conn.State == ConnectionState.Open) conn.Close();
+
+                try
+                {
+                    registration = await conn.QueryFirstOrDefaultAsync<Registration>(query, new { id }, commandType: CommandType.Text);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+                }
+
+            }
+
+            return registration;
+        }
+
     }
 }

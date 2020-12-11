@@ -17,6 +17,7 @@ using LocalOfferts.Areas.Identity;
 using LocalOfferts.Data;
 using LocalOfferts.Data.Migrations;
 using LocalOfferts.Service;
+using Blazored.Modal;
 
 namespace LocalOfferts
 {
@@ -41,7 +42,7 @@ namespace LocalOfferts
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();           
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFileUpload, FileUpload>();
             services.AddScoped<IRegistrationService, RegistrationService>();

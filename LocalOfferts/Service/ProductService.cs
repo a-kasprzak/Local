@@ -82,6 +82,33 @@ namespace LocalOfferts.Service
             return products;
         }
 
+        public async Task<IEnumerable<Product>> GetProductsByCity(string city)
+        {
+            IEnumerable<Product> products;
+
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                string query = $"SELECT * FROM Products WHERE City = '{city}'";
+
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                try
+                {
+                    products = await conn.QueryAsync<Product>(query);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                        conn.Close();
+                }
+            }
+            return products;
+        }
+
         public async Task<IEnumerable<Product>> GetProducts()
         {
             IEnumerable<Product> products;

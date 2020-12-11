@@ -14,7 +14,7 @@
 
 
 <h2 class="text-black-50 text-center "> Twoje produkty  </h2>
-
+<br />
 <button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
 <br />
 <br />
@@ -26,27 +26,42 @@
 }
 else
 {
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Wyszukaj"
+               @bind="Filter"
+               @bind:event="oninput">
+    </div>
     <div class="container-fluid">
         <div class="row">
             <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
                 <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
                     <tr>
-                        <th>Lp</th>
-                        <th>Nazwa Produktu</th>
-                        <th> Delete/Edit </th>
+                        <th>Numer</th>
+                        <th>Nazwa</th>
+                        <th>Typ</th>
+                        <th>Cena</th>
+                        <th>Data utworzenia</th>
+                        <th>Usuń / Edytuj</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var product in products)
                     {
+                        if (!IsVisible(product))
+                            continue;
                         <tr>
                             <td>@product.ProductId</td>
                             <td>@product.ProductName</td>
+                            <td>@product.ProductType</td>
+                            <td>@product.ProductPrice</td>
+                            <td>@product.CreationDate</td>
                             <td>
                                 <a href='/deleteproduct/@product.ProductId'>Delete</a>
+                                <br />
                                 <a href='/editproduct/@product.ProductId'>Edit</a>
                             </td>
                         </tr>
+
                     }
                 </tbody>
             </table>
@@ -58,8 +73,7 @@ else
 
     string currentUserName;
     private string currentValue;
-
-
+    public string Filter { get; set; }
     IEnumerable<Product> products;
 
 
@@ -69,6 +83,24 @@ else
         products = await ProductService.GetProductsByName(currentUserName);
 
 
+    }
+
+    public bool IsVisible(Product product)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+
+
+        if (product.ProductName.ToLower().ToString().StartsWith(Filter))
+            return true;
+
+        if (product.ProductId.ToString().StartsWith(Filter))
+            return true;
+
+        if (product.ProductType.ToString().StartsWith(Filter))
+            return true;
+
+        return false;
     }
 
 

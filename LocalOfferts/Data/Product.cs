@@ -30,6 +30,7 @@ namespace LocalOfferts.Data
         public string ShopeName { get; set; }
 
         [Required]
+        
         public DateTime CreationDate { get; set; }
 
         public string UserName { get; set; }

@@ -1,0 +1,95 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service
+@using Microsoft.AspNetCore.Components.Authorization;
+
+@page "/adminproductlist"
+@inject IProductService ProductService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<AuthorizeView Roles="Administrators"> 
+    <Authorized>
+
+        <div>
+            <h2 class="text-black-50 text-center "> Witaj, @context.User.Identity.Name!</h2>
+            <h2 class="text-black-50 text-center "> Usuń produkty z bazy danych   </h2>
+            <br />
+        </div>
+
+        @if (products == null)
+        {
+            <p>Ładowanie danych...</p>
+        }
+        else
+        {
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Wyszukaj"
+                       @bind="Filter"
+                       @bind:event="oninput">
+            </div>
+            <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                    <tr>
+                        <th>Lp</th>
+                        <th>Nazwa Produktu</th>
+                        <th>Nazwa Użytkownika</th>
+                        <th>Nazwa Sklepu</th>
+                        <th> Delete </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in products)
+                    {
+                        if (!IsVisible(product))
+                            continue;
+                        <tr>
+                            <td>@product.ProductId</td>
+                            <td>@product.ProductName</td>
+                            <td>@product.UserName</td>
+                            <td>@product.ShopeName</td>
+                            <td>
+                                <a href='/AdminDeleteProduct/@product.ProductId'>Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <h1>Authentication Failure!</h1>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    IEnumerable<Product> products;
+    public string Filter { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetProducts();
+    }
+
+    public bool IsVisible(Product product)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+
+
+        if (product.ProductName.ToLower().ToString().StartsWith(Filter))
+            return true;
+
+        if (product.ProductType.ToString().StartsWith(Filter))
+            return true;
+
+        if (product.ProductId.ToString().StartsWith(Filter))
+            return true;
+
+        return false;
+    }
+
+}
