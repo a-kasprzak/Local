@@ -1,11 +1,12 @@
 ﻿@using LocalOfferts.Data
-@using LocalOfferts.Service 
+@using LocalOfferts.Service
 
 @page "/adminregistrationlist"
 @inject IRegistrationService RegistrationService
 @attribute [Authorize(Roles = "Administrators")]
 
-<h3>AdminRegistrationList</h3>
+<h3 style="align-content:center;">Petycje</h3>
+<br />
 
 @if (registrations == null)
 {
@@ -14,6 +15,11 @@
 }
 else
 {
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Wyszukaj"
+               @bind="Filter"
+               @bind:event="oninput">
+    </div>
     <div class="container-fluid">
         <div class="row">
             <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
@@ -22,19 +28,27 @@ else
                         <th>Lp</th>
                         <th>Imie</th>
                         <th>Email</th>
+                        <th>Nazwa Sklepu</th>
                         <th>Numer telefonu</th>
                         <th>Miasto</th>
+                        <th>Usuń</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var form in registrations)
                     {
+                        if (!IsVisible(form))
+                            continue;
                         <tr>
                             <td>@form.id</td>
                             <td>@form.Name</td>
                             <td>@form.Email</td>
+                            <td>@form.ShopName</td>
                             <td>@form.PhoneNumber</td>
                             <td>@form.City</td>
+                            <td>
+                                <a href='/adminregistrationlistdelete/@form.id'>Delete</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -44,12 +58,32 @@ else
 }
 
 @code {
+
     IEnumerable<Registration> registrations;
+    public string Filter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
 
         registrations = await RegistrationService.GetRegistrationList();
 
+    }
+
+    public bool IsVisible(Registration registration)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+
+
+        if (registration.Name.ToLower().ToString().StartsWith(Filter))
+            return true;
+
+        if (registration.PhoneNumber.ToString().StartsWith(Filter))
+            return true;
+
+        if (registration.id.ToString().StartsWith(Filter))
+            return true;
+
+        return false;
     }
 }

@@ -13,78 +13,227 @@
     }
 </style>
 
+<div class="container">
+    <div class="col-md-auto">
+        <div class="input-group-prepend">
+            <select class="custom-select" style="width: 130px;" name="City" @bind="City">
+                <option value="all">all</option>
+                <option value="Prabuty">Prabuty</option>
+                <option value="Kwidzyn">Kwidzyn</option>
+                <option value="Susz">Susz</option>
+            </select>
 
-@if (products == null)
-{
-    <p>Loading..</p>
-
-}
-else
-{
-
-<div class="form-group has-search">
-    <span class="glyphicon glyphicon-name"></span>
-    <input type="text" class="form-control" placeholder="Wyszukaj..."
-           @bind="Filter"
-           @bind:event="oninput" />
+            <input type="text" class="form-control" placeholder="Wyszukaj..."
+                   @bind="Filter"
+                   @bind:event="oninput" />
+        </div>
+    </div>
 </div>
-    <br />
-    <div class="container">
+<hr />
 
-        <div class="card-columns">
-            @foreach (var pro in products)
-            {
-                if (!IsVisible(pro))
-                    continue;
+@if ((City == null) || (City == "all"))
+{
+    @if (products == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container">
 
-                <div class="card">
-                    @if (pro.Image is null)
-                    {
-                        <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
-                    }
-                    else
-                    {
-                        <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
-                    }
+            <div class="card-columns">
+                @foreach (var pro in products)
+                {
+                    if (!IsVisible(pro))
+                        continue;
+
+                    <div class="card">
+                        @if (pro.Image is null)
+                        {
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
+                        }
 
                     <div class="card-body">
                         <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <h7>Data utworzenia : @pro.CreationDate</h7>
+                        <hr />
+                        <p style="text-align: left;"> @pro.ProductDescription</p>
+                        <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
                     </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-outline-secondary"> check </button>
+                        <div class="card-footer">
+                            <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
+                        </div>
                     </div>
-                </div>
-                <br />
+                    <br />
 
+                }
 
-
-            }
-
+            </div>
         </div>
-    </div>
+    }
+}
+else if (City == "Prabuty")
+{
+    @if (productsByPrabuty == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container">
 
-    <br />
+            <div class="card-columns">
+                @foreach (var pro in productsByPrabuty)
+                {
+                    if (!IsVisible(pro))
+                        continue;
 
+                    <div class="card">
+                        @if (pro.Image is null)
+                        {
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
+                        }
+
+                        <div class="card-body">
+                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                            <hr />
+                            <p style="text-align: left;"> @pro.ProductDescription</p>
+                            <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
+                        </div>
+                        <div class="card-footer">
+                            <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
+                        </div>
+                    </div>
+                    <br />
+                }
+
+            </div>
+        </div>
+    }
 
 }
+else if (City == "Kwidzyn")
+{
+    @if (productsByKwidzyn == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container">
+
+            <div class="card-columns">
+                @foreach (var pro in productsByKwidzyn)
+                {
+                    if (!IsVisible(pro))
+                        continue;
+
+                    <div class="card">
+                        @if (pro.Image is null)
+                        {
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
+                        }
+
+                        <div class="card-body">
+                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                            <hr />
+                            <p style="text-align: left;"> @pro.ProductDescription</p>
+                            <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
+                        </div>
+                        <div class="card-footer">
+                            <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
+                        </div>
+                    </div>
+                    <br />
+
+                }
+
+            </div>
+        </div>
+    }
+
+}
+else if (City == "Susz")
+{
+    @if (productsBySusz == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container">
+
+            <div class="card-columns">
+                @foreach (var pro in productsBySusz)
+                {
+                    if (!IsVisible(pro))
+                        continue;
+
+                    <div class="card">
+                        @if (pro.Image is null)
+                        {
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top " src="@convertImageToDisplay(pro.Image)" />
+                        }
 
 
+                        <div class="card-body">
+                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                            <hr />
+                            <p style="text-align: left;"> @pro.ProductDescription</p>
+                            <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
+                        </div>
+                        <div class="card-footer">
+                            <p style="text-align: center;">@pro.City     @pro.CreationDate .</p>
+                        </div>
+                    </div>
+                    <br />
+
+                }
+
+            </div>
+        </div>
+    }
+
+}
 
 
 
 @code
 {
     IEnumerable<Product> products;
+    IEnumerable<Product> productsByPrabuty;
+    IEnumerable<Product> productsByKwidzyn;
+    IEnumerable<Product> productsBySusz;
+
     public string Filter { get; set; }
+    public string City { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
 
         products = await ProductService.GetProducts();
+        productsByPrabuty = await ProductService.GetProductsByCity("Prabuty");
+        productsByKwidzyn = await ProductService.GetProductsByCity("Kwidzyn");
+        productsBySusz = await ProductService.GetProductsByCity("Susz");
+
 
     }
+
 
     public bool IsVisible(Product product)
     {

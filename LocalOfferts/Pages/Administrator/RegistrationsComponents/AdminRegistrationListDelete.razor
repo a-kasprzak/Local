@@ -1,0 +1,79 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service
+@using Microsoft.AspNetCore.Components.Authorization;
+
+@page "/adminregistrationlistdelete/{id:int}"
+@inject NavigationManager NavigationManager
+@inject IRegistrationService RegistrationService
+
+<AuthorizeView Roles="Administrators">
+    <Authorized>
+        <h2>Potwierdź usunięcie</h2>
+        
+        <br />
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                    <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                        <tr>
+                            <td>Lp</td>
+                            <td>@registration.id</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>Nazwa</td>
+                        <td>@registration.Name</td>
+                    </tr>
+                    <tr>
+                        <td>Nazwa sklepu</td>
+                        <td>@registration.ShopName</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>@registration.Email</td>
+                    </tr>
+                    <tr>
+                        <td>Numer telefonu</td>
+                        <td>@registration.PhoneNumber</td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <input type="button" value="Delete" @onclick="@Delete" class="btn btn-primary" />
+                    <input type="button" value="Cancel" @onclick="@Cancel" class="btn" />
+                </div>
+            </div>
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <h1>Authentication Failure!</h1>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+    Registration registration = new Registration();
+
+    protected override async Task OnInitializedAsync()
+    {
+        registration = await RegistrationService.SingleRegistration(id);
+    }
+
+    protected async Task Delete()
+    {
+        await RegistrationService.DeleteRegistration(id);
+        NavigationManager.NavigateTo("adminregistrationlist");
+
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("adminregistrationlist");
+    }
+}

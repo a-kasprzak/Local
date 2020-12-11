@@ -8,5 +8,9 @@ namespace LocalOfferts.Service
     {
         Task<bool> CreateRegistration(Registration registration);
         Task<IEnumerable<Registration>> GetRegistrationList();
+
+        Task<bool> DeleteRegistration(int id);
+
+        Task<Registration> SingleRegistration(int id);
     }
 }
