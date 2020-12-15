@@ -226,7 +226,7 @@ else if (City == "Susz")
     protected override async Task OnInitializedAsync()
     {
 
-        products = await ProductService.GetProducts();
+        products = await ProductService.GetProductsFromTwoWeeks();
         productsByPrabuty = await ProductService.GetProductsByCity("Prabuty");
         productsByKwidzyn = await ProductService.GetProductsByCity("Kwidzyn");
         productsBySusz = await ProductService.GetProductsByCity("Susz");

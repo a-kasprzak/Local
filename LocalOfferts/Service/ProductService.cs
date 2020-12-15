@@ -88,7 +88,7 @@ namespace LocalOfferts.Service
 
             using (var conn = new SqlConnection(_configuration.Value))
             {
-                string query = $"SELECT * FROM Products WHERE City = '{city}'";
+                string query = $"SELECT * FROM Products WHERE City = '{city}' AND CreationDate >= getdate() - 14";
 
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
@@ -213,6 +213,33 @@ namespace LocalOfferts.Service
             return true;
 
 
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsFromTwoWeeks()
+        {
+            IEnumerable<Product> products;
+
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                string query = $"SELECT * FROM Products WHERE CreationDate >= getdate() - 14";
+
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                try
+                {
+                    products = await conn.QueryAsync<Product>(query);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                        conn.Close();
+                }
+            }
+            return products;
         }
 
     }
