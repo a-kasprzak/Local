@@ -215,6 +215,30 @@ namespace LocalOfferts.Service
 
         }
 
+        public async Task<bool> EditProductAdmin(int productId, Product product)
+        {
+
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                string query = $"UPDATE dbo.Products set ProductName = @ProductName, ProductPrice = @ProductPrice , ProductDescription = @ProductDescription, ShopeName = @ShopeName, CreationDate = @CreationDate WHERE ProductId = {productId}";
+                try
+                {
+                    await conn.ExecuteAsync(query, new { product.ProductName, product.ProductPrice, product.ProductDescription, product.ShopeName, product.CreationDate, productId }, commandType: CommandType.Text);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+                }
+            }
+            return true;
+        }
         public async Task<bool> RefreshProduct(int productId)
         {
 
