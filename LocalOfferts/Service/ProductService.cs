@@ -215,6 +215,33 @@ namespace LocalOfferts.Service
 
         }
 
+        public async Task<bool> RefreshProduct(int productId)
+        {
+
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                string query = $"UPDATE dbo.Products set CreationDate = getdate()  WHERE ProductId = {productId}";
+                try
+                {
+                    await conn.ExecuteAsync(query, new {query, productId }, commandType: CommandType.Text);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open) conn.Close();
+                }
+            }
+            return true;
+
+
+        }
+
         public async Task<IEnumerable<Product>> GetProductsFromTwoWeeks()
         {
             IEnumerable<Product> products;
