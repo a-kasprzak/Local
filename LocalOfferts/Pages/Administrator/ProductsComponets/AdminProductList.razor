@@ -34,7 +34,7 @@
                         <th>Nazwa Produktu</th>
                         <th>Nazwa Użytkownika</th>
                         <th>Nazwa Sklepu</th>
-                        <th> Delete </th>
+                        <th> Usuń / Edytuj </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +49,7 @@
                             <td>@product.ShopeName</td>
                             <td>
                                 <a href='/AdminDeleteProduct/@product.ProductId'>Delete</a>
+                                <a href='/admineditproduct/@product.ProductId'>Edytuj</a>
                             </td>
                         </tr>
                     }
