@@ -15,5 +15,6 @@ namespace LocalOfferts.Service
         Task<Product> SingleProduct(int idproductId);
 
         Task<bool> EditProduct(int productId, Product product);
+        Task<bool> RefreshProduct(int productId);
     }
 }

@@ -1,0 +1,107 @@
+﻿@using LocalOfferts.Data
+@using LocalOfferts.Service
+
+@page "/refreshproduct/{id:int}"
+@inject NavigationManager NavigationManager
+@inject IProductService ProductService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h1>Twój produkt wygasł, aby go odświeżyć kliknij przycisk "Odśwież"</h1>
+
+
+<AuthorizeView Roles="Users">
+    <Authorized>
+
+        @if (product != null)
+        {
+            @if (context.User.Identity.Name == product.UserName)
+            {
+        <div>
+            <h2 class="text-black-50 text-center "> Potwierdź odświeżenie produktu</h2>
+            <h2 class="text-black-50 text-center "> Pamiętaj że produkt aktywny będzie przez 14 dni.</h2>
+            <hr />
+        </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                            <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
+                                <tr>
+                                    <th>Lp</th>
+                                    <th>Nazwa Produktu</th>
+
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>Lp</td>
+                                <td>@product.ProductId</td>
+                            </tr>
+                            <tr>
+                                <td>Nazwa</td>
+                                <td>@product.ProductName</td>
+                            </tr>
+                            <tr>
+                                <td>Typ produktu</td>
+                                <td>@product.ProductType</td>
+                            </tr>
+                            <tr>
+                                <td>Data utworzenia</td>
+                                <td>@product.CreationDate</td>
+                            </tr>
+                            <tr>
+                                <td>Cena</td>
+                                <td>@product.ProductPrice</td>
+                            </tr>
+                            <tr>
+                                <td>Opis</td>
+                                <td>@product.ProductDescription</td>
+                            </tr>
+                        </table>
+                        <div class="form-group">
+                            <input type="button" value="Odśwież" @onclick="@Refresh" class="btn btn-danger" />
+                            <input type="button" value="Anuluj" @onclick="@Cancel" class="btn btn-warning" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <h1>Produkt nie znajduje się na twojej liście!</h1>
+            }
+        }
+        else
+        {
+            <h1>Produkt nie znajduje się na twojej liście!</h1>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h1> Nie masz uprawnień do przeglądania tej strony zaloguj się!</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+    Product product = new Product();
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.SingleProduct(id);
+    }
+
+    protected async Task Refresh()
+    {
+        await ProductService.RefreshProduct(id);
+        NavigationManager.NavigateTo("indexproduct");
+
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("indexproduct");
+    }
+
+}
