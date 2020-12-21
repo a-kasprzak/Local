@@ -17,6 +17,13 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.avatar {
+    vertical-align: middle;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+}
+
 app {
     position: relative;
     display: flex;
@@ -34,37 +41,6 @@ app {
     padding-left: 2.375rem;
 }
 
-
-
-/* .has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-}
-*/
-
-/*
-
-
-input[type=text] {
-    width: 130px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    
-}
-    */
-    /* When the input field gets focus, change its width to 100% */
-    /*
-    input[type=text]:focus {
-        width: 30%;
-    }
-*/
 .main {
     flex: 1;
 }

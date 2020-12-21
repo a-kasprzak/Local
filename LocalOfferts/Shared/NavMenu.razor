@@ -27,12 +27,10 @@
 
     <AuthorizeView>
         <Authorized>
-            <div class="card" style="width:8rem">
-                <div class="card-img-top">
-                    <center> <img class="card-img-top" src="/css/static/zdjprofil.png" alt="Card image cap"> </center>
-                    <center> <a href="indexproduct">@context.User.Identity.Name!</a> </center>
-                </div>
-            </div>
+            
+                    <center> <img src="/css/static/user1.png" alt="Avatar" class="avatar"> </center>
+                    <center> <p style="color:ghostwhite;">@context.User.Identity.Name</p> </center>
+             
         </Authorized>
     </AuthorizeView>
 
