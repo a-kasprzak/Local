@@ -6,6 +6,9 @@
 @inject IProductService ProductService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
+<h1>Twój produkt wygasł, aby go odświeżyć kliknij przycisk "Odśwież"</h1>
+
+
 <AuthorizeView Roles="Users">
     <Authorized>
 
@@ -55,9 +58,8 @@
                             </tr>
                         </table>
                         <div class="form-group">
-                            <input type="button" value="Odśwież" @onclick="@Refresh" class="btn btn-success" />
-                            <input type="button" value="Usuń" @onclick="@Delete" class="btn btn-danger" />
-                            <input type="button" value="Cofnij" @onclick="@Cancel" class="btn btn-warning" />
+                            <input type="button" value="Odśwież" @onclick="@Refresh" class="btn btn-danger" />
+                            <input type="button" value="Anuluj" @onclick="@Cancel" class="btn btn-warning" />
                         </div>
                     </div>
                 </div>
@@ -94,12 +96,6 @@
     {
         await ProductService.RefreshProduct(id);
         NavigationManager.NavigateTo("indexproduct");
-
-    }
-    protected async Task Delete()
-    {
-        await ProductService.RefreshProduct(id);
-        NavigationManager.NavigateTo("deleteproduct/"+ id);
 
     }
 
