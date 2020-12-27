@@ -19,11 +19,12 @@
 <br />
 @if (products == null)
 {
-    <p>Brak produktów na liście</p>
+    <p>loading...</p>
+
 }
 else
 {
-    @if (products.Count() >= 10)
+    @if (products.Count() >= 10 && products.Count() != 0)
     {
         <div class="col-md-7" style="margin:0 auto;">
             <div class="card">
@@ -35,7 +36,94 @@ else
             </div>
 
         </div>
-        
+    }
+    else if (products.Count() == 0)
+    {
+        <div class="col-md-7" style="margin:0 auto;">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+
+                            <EditForm Model="@product" OnValidSubmit="@CreateProduct">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Image" class="col-form-label">Wybierz zdjęcie</label>
+                                    <InputFile class="btn-dark" OnChange="HandleFileSelected"></InputFile>
+                                    <ValidationMessage For="@(()=> product.Image)"></ValidationMessage>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="City" class="col-form-label">Typ produktu</label>
+                                    <InputSelect class="form-control" @bind-Value="product.ProductType">
+                                        <option value="">Wybierz z listy...</option>
+                                        <option value="Odzież">Odzież</option>
+                                        <option value="Elekronika">Elekronika</option>
+                                        <option value="Inne">Inne</option>
+                                    </InputSelect>
+                                    <ValidationMessage For="@(()=> product.ProductType)"></ValidationMessage>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="City" class="col-form-label">Miasto</label>
+                                    <InputSelect class="form-control" @bind-Value="product.City">
+                                        <option value="">Wybierz z listy...</option>
+                                        <option value="Prabuty">Prabuty</option>
+                                        <option value="Kwidzyn">Kwidzyn</option>
+                                        <option value="Susz">Susz</option>
+                                    </InputSelect>
+                                    <ValidationMessage For="@(()=> product.City)"></ValidationMessage>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ProductName" class="col-form-label">Nazwa Produktu</label>
+                                    <InputText for="ProductName" class="form-control" @bind-Value="product.ProductName" />
+                                    <ValidationMessage For="@(()=> product.ProductName)"></ValidationMessage>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ProductPrice" class="col-form-label">Cena</label>
+                                    <InputNumber type="number" step="0.01" for="ProductPrice" class="form-control" @bind-Value="product.ProductPrice" />
+                                    <ValidationMessage For="@(()=> product.ProductPrice)"></ValidationMessage>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ProductDescripion" class="col-form-label">Opis Produktu</label>
+                                    <InputTextArea class="form-control" @bind-Value="product.ProductDescription" rows="3" />
+                                    <ValidationMessage For="@(()=> product.ProductDescription)"></ValidationMessage>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ShopeName" class="col-form-label">Nazwa Sklepu</label>
+                                    <InputText for="ShopeName" class="form-control" @bind-Value="product.ShopeName" />
+                                    <ValidationMessage For="@(()=> product.ShopeName)"></ValidationMessage>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-success" value="Save" />
+                                            <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Cancel" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </EditForm>
+
+
+                        </div>
+
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
     }
     else
     {
@@ -129,36 +217,25 @@ else
 }
 
 
-
-
-
-
-
-
-
 @code {
 
     Product product = new Product();
 
     public byte[] ImageUpload { get; set; }
     IEnumerable<Product> products;
-    string currentUserName;
-    private string userName;
+    
+    
 
 
     protected override async Task OnInitializedAsync()
     {
-        userName = httpContextAccessor.HttpContext.User.Identity.Name;
-        currentUserName = httpContextAccessor.HttpContext.User.Identity.Name;
-        products = await ProductService.GetProductsByName(currentUserName);
-
-
+        products = await ProductService.GetProductsByName();
     }
 
     private async Task CreateProduct()
     {
         product.Image = ImageUpload;
-        await ProductService.CreateProduct(product, userName);
+        await ProductService.CreateProduct(product);
         NavigationManager.NavigateTo("indexproduct");
     }
 

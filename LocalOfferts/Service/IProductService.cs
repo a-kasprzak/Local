@@ -6,8 +6,8 @@ namespace LocalOfferts.Service
 {
     public interface IProductService
     {
-        Task<bool> CreateProduct(Product product,string userName);
-        Task<IEnumerable<Product>> GetProductsByName(string userName);
+        Task<bool> CreateProduct(Product product);
+        Task<IEnumerable<Product>> GetProductsByName();
         Task<IEnumerable<Product>> GetProductsByCity(string city);
         Task<IEnumerable<Product>> GetProducts();
         Task<IEnumerable<Product>> GetProductsFromTwoWeeks();

@@ -18,6 +18,7 @@ using LocalOfferts.Data;
 using LocalOfferts.Data.Migrations;
 using LocalOfferts.Service;
 using Blazored.Modal;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace LocalOfferts
 {
@@ -37,9 +38,11 @@ namespace LocalOfferts
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddHttpContextAccessor();           
@@ -60,6 +63,7 @@ namespace LocalOfferts
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+
             }
             else
             {
@@ -69,8 +73,11 @@ namespace LocalOfferts
             }
 
             app.UseHttpsRedirection();
+            app.UsePathBase("/LocalOfferts");
+            //var provider = new FileExtensionContentTypeProvider();
+            //provider.Mappings.Add(".appx", "application/octet-stream");
+            //app.UseStaticFiles(new StaticFileOptions() { ContentTypeProvider = provider });
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();

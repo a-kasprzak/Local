@@ -5,101 +5,109 @@
 @using LocalOfferts.Service
 @using Microsoft.AspNetCore.Http
 
+
 @inject UserManager<IdentityUser> UserManager
 @inject IProductService ProductService
 @inject IHttpContextAccessor httpContextAccessor
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Users")]
 
 
+<AuthorizeView Roles="Users">
+    <Authorized>
+        <h2 class="text-black-50 text-center "> Twoje produkty  </h2>
+        <br />
 
-<h2 class="text-black-50 text-center "> Twoje produkty  </h2>
-<br />
+        @if (products == null)
+        {
+            <p>Loading..</p>
 
-@if (products == null)
-{
-    <p>Loading..</p>
+        }
+        else
+        {
+            @if (products.Count() >= 10)
+            {
+                <p>Maksymalna ilość ogłoszeń została osiągnięta, usuń aby dodać nowe</p>
+                <p>Twoje produkty @products.Count() / 10 </p>
+            }
+            else
+            {
+                <button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
+                <p>Twoje produkty @products.Count() / 10 </p>
+            }
 
-}
-else
-{
-    @if (products.Count() >= 10)
-    {
-        <p>Maksymalna ilość ogłoszeń została osiągnięta, usuń aby dodać nowe</p>
-        <p>Twoje produkty @products.Count() / 10 </p>
-    }
-    else
-    {
-        <button class="btn btn-success" @onclick="@ADD">ADD NEW</button>
-        <p>Twoje produkty @products.Count() / 10 </p>
-    }
-
-    <div class="form-group">
-        <input class="form-control" type="text" placeholder="Wyszukaj"
-               @bind="Filter"
-               @bind:event="oninput">
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
-                <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
-                    <tr>
-                        <th>Numer</th>
-                        <th>Nazwa</th>
-                        <th>Typ</th>
-                        <th>Cena</th>
-                        <th>Data utworzenia</th>
-                        <th>Edycja</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in products)
-                    {
-                        if (!IsVisible(product))
-                            continue;
-
-
-                        @if (product.CreationDate >= DateTime.Now.AddDays(-14))
-                        {
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Wyszukaj"
+                       @bind="Filter"
+                       @bind:event="oninput">
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <table class="table table-hover  shadow p-3 mb-5 bg-white rounded">
+                        <thead class="thead-dark shadow p-3 mb-5 bg-white rounded">
                             <tr>
-                                <td>@product.ProductId</td>
-                                <td>@product.ProductName</td>
-                                <td>@product.ProductType</td>
-                                <td>@product.ProductPrice</td>
-                                <td>@product.CreationDate</td>
-                                <td>
-                                    <a href='/deleteproduct/@product.ProductId'>Usuń</a>
-                                    <br />
-                                    <a href='/editproduct/@product.ProductId'>Edytuj</a>
-                                </td>
+                                <th>Numer</th>
+                                <th>Nazwa</th>
+                                <th>Typ</th>
+                                <th>Cena</th>
+                                <th>Data utworzenia</th>
+                                <th>Edycja</th>
                             </tr>
-                        }
-                        else
-                        {
-                            <tr>
-                                <td>@product.ProductId</td>
-                                <td>@product.ProductName</td>
-                                <td>@product.ProductType</td>
-                                <td>@product.ProductPrice</td>
-                                <td>Oferta Wygasła!</td>
-                                <td>
-                                    <a href='/refreshproduct/@product.ProductId'>Odśwież</a>
-                                </td>
-                            </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @foreach (var product in products)
+                            {
+                                if (!IsVisible(product))
+                                    continue;
+
+
+                                @if (product.CreationDate >= DateTime.Now.AddDays(-14))
+                                {
+                                    <tr>
+                                        <td>@product.ProductId</td>
+                                        <td>@product.ProductName</td>
+                                        <td>@product.ProductType</td>
+                                        <td>@product.ProductPrice</td>
+                                        <td>@product.CreationDate</td>
+                                        <td>
+                                            <a href='/deleteproduct/@product.ProductId'>Usuń</a>
+                                            <br />
+                                            <a href='/editproduct/@product.ProductId'>Edytuj</a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@product.ProductId</td>
+                                        <td>@product.ProductName</td>
+                                        <td>@product.ProductType</td>
+                                        <td>@product.ProductPrice</td>
+                                        <td>Oferta Wygasła!</td>
+                                        <td>
+                                            <a href='/refreshproduct/@product.ProductId'>Odśwież</a>
+                                        </td>
+                                    </tr>
+                                }
 
 
 
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p> nie jesteś zalgowany.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-@code {
+    
 
-    string currentUserName;
+    @code {
+
+    
     private string currentValue;
     public int counter = 0;
     public string Filter { get; set; }
@@ -109,8 +117,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        currentUserName = httpContextAccessor.HttpContext.User.Identity.Name;
-        products = await ProductService.GetProductsByName(currentUserName);
+        
+        products = await ProductService.GetProductsByName();
         product = await ProductService.GetProductsFromTwoWeeks();
 
 
@@ -144,4 +152,4 @@ else
     {
         counter++;
     }
-}
+    }

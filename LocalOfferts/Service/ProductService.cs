@@ -6,19 +6,26 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using LocalOfferts.Data;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LocalOfferts.Service
 {
     public class ProductService : IProductService
     {
         private readonly SqlConnectionConfiguration _configuration;
+        private readonly AuthenticationStateProvider _authenticationStateProvider;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProductService(SqlConnectionConfiguration configuration)
+        public ProductService(SqlConnectionConfiguration configuration, AuthenticationStateProvider authenticationStateProvider, UserManager<IdentityUser> userManager)
         {
             _configuration = configuration;
+            _authenticationStateProvider = authenticationStateProvider;
+            _userManager = userManager;
         }
 
-        public async Task<bool> CreateProduct(Product product, string userName)
+
+        public async Task<bool> CreateProduct(Product product)
         {
             var parameters = new DynamicParameters();
             parameters.Add("ProductName", product.ProductName, DbType.String);
@@ -31,6 +38,10 @@ namespace LocalOfferts.Service
             parameters.Add("ProductType", product.ProductType, DbType.String);
             parameters.Add("City", product.City, DbType.String);
 
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var userName = authState.User;
+            var currentuser = await _userManager.GetUserAsync(userName);
+            string name = currentuser.Email;
 
             using (var conn = new SqlConnection(_configuration.Value))
             {
@@ -38,7 +49,7 @@ namespace LocalOfferts.Service
 
                 try
                 {
-                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName,Image,ProductType,City) VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{userName}',@Image,@ProductType,@City)";
+                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName,Image,ProductType,City) VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{name}',@Image,@ProductType,@City)";
                     await conn.ExecuteAsync(query, product);
                 }
                 catch (Exception ex)
@@ -55,13 +66,18 @@ namespace LocalOfferts.Service
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByName(string userName)
+        public async Task<IEnumerable<Product>> GetProductsByName()
         {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var userName = authState.User;
+            var currentuser = await _userManager.GetUserAsync(userName);
+            string name = currentuser.Email;
+        
             IEnumerable<Product> products;
 
             using (var conn = new SqlConnection(_configuration.Value))
             {
-                string query = $"SELECT * FROM Products WHERE UserName = '{userName}'";
+                string query = $"SELECT * FROM Products WHERE UserName = '{name}'";
 
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();

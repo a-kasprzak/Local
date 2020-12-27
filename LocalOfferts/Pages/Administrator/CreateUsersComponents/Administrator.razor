@@ -10,7 +10,7 @@
     <h2 class="text-black-50 text-center "> Administrator  </h2>
     <br />
 </div>
-<AuthorizeView>
+<AuthorizeView Roles="Administrators">
     <Authorized>
         @if (@context.User.IsInRole(ADMINISTRATION_ROLE))
         {
@@ -170,15 +170,15 @@
 
         }
 
-        // Ensure a user named Admin@BlazorHelpWebsite.com is an Administrator
+        
         var user = await _UserManager.FindByNameAsync("admin@admin.pl");
         if (user != null)
         {
-            // Is Admin@BlazorHelpWebsite.com in administrator role?
+            
             var UserResult = await _UserManager.IsInRoleAsync(user, ADMINISTRATION_ROLE);
             if (!UserResult)
             {
-                // Put admin in Administrator role
+                
                 await _UserManager.AddToRoleAsync(user, ADMINISTRATION_ROLE);
             }
         }

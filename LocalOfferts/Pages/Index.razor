@@ -5,13 +5,6 @@
 
 @inject IProductService ProductService
 
-<style>
-    .card {
-        box-shadow: 0 0 1em grey;
-        padding: 4px 3px;
-        border-radius: 15px/5px;
-    }
-</style>
 
 <div class="container">
     <div class="col-md-auto">
@@ -249,8 +242,9 @@ else if (City == "Susz")
             return true;
 
 
-        if (product.ProductName.ToLower().ToString().StartsWith(Filter))
+        if (product.ProductName.ToLowerInvariant().ToString().StartsWith(Filter.ToLower()))
             return true;
+        
 
         return false;
     }
