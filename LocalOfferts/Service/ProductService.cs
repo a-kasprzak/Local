@@ -49,7 +49,8 @@ namespace LocalOfferts.Service
 
                 try
                 {
-                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName,Image,ProductType,City) VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{name}',@Image,@ProductType,@City)";
+                    string query = $"INSERT INTO PRODUCTS(ProductName,ProductDescription,ProductPrice,ShopeName,CreationDate,UserName,Image,ProductType,City) " +
+                        $"VALUES (@ProductName,@ProductDescription,@ProductPrice,@ShopeName,getdate(),'{name}',@Image,@ProductType,@City)";
                     await conn.ExecuteAsync(query, product);
                 }
                 catch (Exception ex)

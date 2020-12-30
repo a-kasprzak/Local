@@ -1,14 +1,8 @@
-﻿@page "/indexproduct"
-
-@using Microsoft.AspNetCore.Identity
-@using LocalOfferts.Data
+﻿@using LocalOfferts.Data
 @using LocalOfferts.Service
-@using Microsoft.AspNetCore.Http
 
-
-@inject UserManager<IdentityUser> UserManager
+@page "/indexproduct"
 @inject IProductService ProductService
-@inject IHttpContextAccessor httpContextAccessor
 @inject NavigationManager NavigationManager
 
 
@@ -103,13 +97,11 @@
     </NotAuthorized>
 </AuthorizeView>
 
-    
 
-    @code {
 
-    
-    private string currentValue;
-    public int counter = 0;
+@code {
+
+
     public string Filter { get; set; }
     IEnumerable<Product> products;
     IEnumerable<Product> product;
@@ -117,7 +109,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+
         products = await ProductService.GetProductsByName();
         product = await ProductService.GetProductsFromTwoWeeks();
 
@@ -148,8 +140,5 @@
         NavigationManager.NavigateTo("addproduct");
     }
 
-    private void IncrementCount()
-    {
-        counter++;
-    }
-    }
+
+}
