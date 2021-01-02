@@ -1,0 +1,134 @@
+﻿@page "/home"
+
+@using LocalOfferts.Data
+@using LocalOfferts.Service
+
+@inject IProductService ProductService
+
+
+<div class="container">
+    <div class="col-md-auto">
+        <div class="input-group-prepend">
+            <select class="custom-select" style="width: 130px;" name="City" @bind="City">
+                <option value="all">all</option>
+                <option value="Prabuty">Prabuty</option>
+                <option value="Kwidzyn">Kwidzyn</option>
+                <option value="Susz">Susz</option>
+            </select>
+
+            <input type="text" class="form-control" placeholder="Wyszukaj..."
+                   @bind="Filter"
+                   @bind:event="oninput" />
+        </div>
+    </div>
+</div>
+<hr />
+
+@if ((City == null) || (City == "all"))
+{
+    @if (products == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+<div class="container">
+
+    <div class="card-columns">
+
+        @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
+        {
+            if (!IsVisible(pro))
+                continue;
+
+            <div class="card">
+                @if (pro.Image is null)
+                {
+                    <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                }
+                else
+                {
+                    <img class="card-img-top" src="@convertImageToDisplay(pro.Image)" />
+                }
+
+                <div class="card-body">
+                    <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                    <hr />
+                    <p style="text-align: left;"> @pro.ProductDescription</p>
+                    <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
+                    <hr />
+                    <p style="text-align: left;">Oferta aktualna w sklepie @pro.ShopeName</p>
+                </div>
+                <div class="card-footer">
+                    <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
+                </div>
+            </div>
+            <br />
+
+        }
+    </div>
+    <div class="col-md-auto">
+
+        <button class="btn btn-success" @onclick="AddCards">Pokaż więcej</button>
+
+    </div>
+    
+
+</div>
+
+    }
+}
+
+
+
+
+@code
+{
+    IEnumerable<Product> products;
+
+    public string Filter { get; set; }
+    public string City { get; set; }
+    public int limit = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        products = await ProductService.GetProductsFromTwoWeeks();
+
+    }
+
+    void AddCards()
+    {
+        limit = limit + 5;
+    }
+
+    public bool IsVisible(Product product)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+
+
+        if (product.ProductName.ToLowerInvariant().ToString().StartsWith(Filter.ToLower()))
+            return true;
+
+
+        return false;
+    }
+
+
+    string convertImageToDisplay(byte[] image)
+    {
+        if (image != null)
+        {
+            var base64 = Convert.ToBase64String(image);
+            var fs = string.Format("data:image/gif;base64,{0}", base64);
+
+            return fs;
+        }
+        return "";
+    }
+
+
+
+}
+

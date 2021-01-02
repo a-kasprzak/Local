@@ -35,7 +35,7 @@
         <div class="container">
 
             <div class="card-columns">
-                @foreach (var pro in products)
+                @foreach (var pro in products.Take(5))
                 {
                     if (!IsVisible(pro))
                         continue;
