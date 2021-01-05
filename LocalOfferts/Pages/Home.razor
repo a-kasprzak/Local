@@ -2,9 +2,9 @@
 
 @using LocalOfferts.Data
 @using LocalOfferts.Service
+@using LazZiya.ImageResize;
 
 @inject IProductService ProductService
-
 
 <div class="container">
     <div class="col-md-auto">
@@ -28,53 +28,54 @@
 {
     @if (products == null)
     {
-        <p>Loading...</p>
+        <p>Wczytauje Dane...</p>
+
     }
     else
     {
-<div class="container">
+        <div class="container">
 
-    <div class="card-columns">
+            <div class="card-columns">
 
-        @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
-        {
-            if (!IsVisible(pro))
-                continue;
-
-            <div class="card">
-                @if (pro.Image is null)
+                @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
                 {
-                    <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
-                }
-                else
-                {
-                    <img class="card-img-top" src="@convertImageToDisplay(pro.Image)" />
-                }
+                    if (!IsVisible(pro))
+                        continue;
 
-                <div class="card-body">
-                    <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
-                    <hr />
-                    <p style="text-align: left;"> @pro.ProductDescription</p>
-                    <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
-                    <hr />
-                    <p style="text-align: left;">Oferta aktualna w sklepie @pro.ShopeName</p>
-                </div>
-                <div class="card-footer">
-                    <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
-                </div>
+                    <div class="card">
+                        @if (pro.Image is null)
+                        {
+                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="@convertImageToDisplay(pro.Image)" />
+                        }
+
+                        <div class="card-body">
+                            <h4 style="text-align: center; font-family: 'American Typewriter, serif'">@pro.ProductName</h4>
+                            <hr />
+                            <p style="text-align: left;"> @pro.ProductDescription</p>
+                            <p style="text-align: left;">Cena: @pro.ProductPrice zł</p>
+                            <hr />
+                            <p style="text-align: left;">Oferta aktualna w sklepie @pro.ShopeName</p>
+                        </div>
+                        <div class="card-footer">
+                            <p style="text-align: center;">@pro.City     @pro.CreationDate</p>
+                        </div>
+                    </div>
+                    <br />
+
+                }
             </div>
-            <br />
+            <div class="col-md-auto">
 
-        }
-    </div>
-    <div class="col-md-auto">
+                <button class="btn btn-success" @onclick="AddCards">Pokaż więcej</button>
 
-        <button class="btn btn-success" @onclick="AddCards">Pokaż więcej</button>
+            </div>
 
-    </div>
-    
 
-</div>
+        </div>
 
     }
 }
@@ -120,13 +121,19 @@
     {
         if (image != null)
         {
-            var base64 = Convert.ToBase64String(image);
-            var fs = string.Format("data:image/gif;base64,{0}", base64);
 
+
+            var base64 = Convert.ToBase64String(image);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            
             return fs;
         }
         return "";
     }
+
+
+    
+
 
 
 

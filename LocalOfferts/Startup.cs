@@ -17,7 +17,6 @@ using LocalOfferts.Areas.Identity;
 using LocalOfferts.Data;
 using LocalOfferts.Data.Migrations;
 using LocalOfferts.Service;
-using Blazored.Modal;
 using Microsoft.AspNetCore.StaticFiles;
 
 namespace LocalOfferts

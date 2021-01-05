@@ -35,7 +35,7 @@
         <div class="container">
 
             <div class="card-columns">
-                @foreach (var pro in products.Take(5))
+                @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
                 {
                     if (!IsVisible(pro))
                         continue;
@@ -81,7 +81,7 @@ else if (City == "Prabuty")
         <div class="container">
 
             <div class="card-columns">
-                @foreach (var pro in productsByPrabuty)
+                @foreach (var pro in productsByPrabuty.OrderBy(products => products.CreationDate).Take(limit))
                 {
                     if (!IsVisible(pro))
                         continue;
@@ -127,7 +127,7 @@ else if (City == "Kwidzyn")
         <div class="container">
 
             <div class="card-columns">
-                @foreach (var pro in productsByKwidzyn)
+                @foreach (var pro in productsByKwidzyn.OrderBy(products => products.CreationDate).Take(limit))
                 {
                     if (!IsVisible(pro))
                         continue;
@@ -174,7 +174,7 @@ else if (City == "Susz")
         <div class="container">
 
             <div class="card-columns">
-                @foreach (var pro in productsBySusz)
+                @foreach (var pro in productsBySusz.OrderBy(products => products.CreationDate).Take(limit))
                 {
                     if (!IsVisible(pro))
                         continue;
@@ -220,6 +220,12 @@ else if (City == "Susz")
     IEnumerable<Product> productsByPrabuty;
     IEnumerable<Product> productsByKwidzyn;
     IEnumerable<Product> productsBySusz;
+    public int limit = 5;
+
+    void AddCards()
+    {
+        limit = limit + 5;
+    }
 
     public string Filter { get; set; }
     public string City { get; set; }
@@ -244,7 +250,7 @@ else if (City == "Susz")
 
         if (product.ProductName.ToLowerInvariant().ToString().StartsWith(Filter.ToLower()))
             return true;
-        
+
 
         return false;
     }

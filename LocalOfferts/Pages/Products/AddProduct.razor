@@ -5,6 +5,7 @@
 @using System.IO;
 
 
+
 @page "/addproduct"
 @inject NavigationManager NavigationManager
 @inject IProductService ProductService
@@ -51,7 +52,7 @@ else
 
                                 <div class="form-group">
                                     <label for="Image" class="col-form-label">Wybierz zdjęcie</label>
-                                    <InputFile class="btn-dark" OnChange="HandleFileSelected"></InputFile>
+                                    <InputFile class="btn-dark" OnChange="HandlePhoto"></InputFile>
                                     <ValidationMessage For="@(()=> product.Image)"></ValidationMessage>
 
                                 </div>
@@ -62,6 +63,7 @@ else
                                         <option value="">Wybierz z listy...</option>
                                         <option value="Odzież">Odzież</option>
                                         <option value="Elekronika">Elekronika</option>
+                                        <option value="Żywność">Żywność</option>
                                         <option value="Inne">Inne</option>
                                     </InputSelect>
                                     <ValidationMessage For="@(()=> product.ProductType)"></ValidationMessage>
@@ -105,8 +107,8 @@ else
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="submit" class="btn btn-success" value="Save" />
-                                            <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Cancel" />
+                                            <input type="submit" class="btn btn-success" value="Zapisz" />
+                                            <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Anuluj" />
                                         </div>
                                     </div>
 
@@ -139,7 +141,7 @@ else
 
                                 <div class="form-group">
                                     <label for="Image" class="col-form-label">Wybierz zdjęcie</label>
-                                    <InputFile class="btn-dark" OnChange="HandleFileSelected"></InputFile>
+                                    <InputFile class="btn-dark" OnChange="HandlePhoto"></InputFile>
                                     <ValidationMessage For="@(()=> product.Image)"></ValidationMessage>
 
                                 </div>
@@ -161,6 +163,7 @@ else
                                         <option value="">Wybierz z listy...</option>
                                         <option value="Prabuty">Prabuty</option>
                                         <option value="Kwidzyn">Kwidzyn</option>
+                                        <option value="Żywność">Żywność</option>
                                         <option value="Susz">Susz</option>
                                     </InputSelect>
                                     <ValidationMessage For="@(()=> product.City)"></ValidationMessage>
@@ -193,8 +196,8 @@ else
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="submit" class="btn btn-success" value="Save" />
-                                            <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Cancel" />
+                                            <input type="submit" class="btn btn-success" value="Zapisz" />
+                                            <input type="button" class="btn btn-warning" @onclick="@Cancel" value="Anuluj" />
                                         </div>
                                     </div>
 
@@ -220,11 +223,11 @@ else
 @code {
 
     Product product = new Product();
-
+    
     public byte[] ImageUpload { get; set; }
     IEnumerable<Product> products;
-    
-    
+
+
 
 
     protected override async Task OnInitializedAsync()
@@ -244,20 +247,38 @@ else
         NavigationManager.NavigateTo("indexproduct");
     }
 
+    private async Task HandlePhoto(IFileListEntry[] files)
+    {
+        var sourceFile = files.FirstOrDefault();
+        if(sourceFile !=null)
+        {
+            var imageFile = await sourceFile.ToImageFileAsync("image/jpg", 500, 500);
+            
+            MemoryStream bytes = await imageFile.ReadAllAsync();
 
+            ImageUpload = bytes.ToArray();
+            
+        }
+
+    }
+
+/*
     async Task HandleFileSelected(IFileListEntry[] files)
     {
         var file = files.FirstOrDefault();
+
         if (file != null)
         {
             var ms = new MemoryStream();
             await file.Data.CopyToAsync(ms);
+
+
             ImageUpload = ms.ToArray();
         }
 
 
     }
 
-
+*/
 
 }
