@@ -30,4 +30,8 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\Masonary\" />
+  </ItemGroup>
+
 </Project>

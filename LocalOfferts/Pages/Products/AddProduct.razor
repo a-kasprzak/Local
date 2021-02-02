@@ -252,7 +252,7 @@ else
         var sourceFile = files.FirstOrDefault();
         if(sourceFile !=null)
         {
-            var imageFile = await sourceFile.ToImageFileAsync("image/jpg", 500, 500);
+            var imageFile = await sourceFile.ToImageFileAsync("image/jpg", 1000, 800);
             
             MemoryStream bytes = await imageFile.ReadAllAsync();
 

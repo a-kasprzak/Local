@@ -1,55 +1,74 @@
-﻿@page "/home"
+﻿@page "/"
 
 @using LocalOfferts.Data
 @using LocalOfferts.Service
-@using LazZiya.ImageResize;
 
 @inject IProductService ProductService
 
-<div class="container">
-    <div class="col-md-auto">
-        <div class="input-group-prepend">
-            <select class="custom-select" style="width: 130px;" name="City" @bind="City">
-                <option value="all">all</option>
-                <option value="Prabuty">Prabuty</option>
-                <option value="Kwidzyn">Kwidzyn</option>
-                <option value="Susz">Susz</option>
-            </select>
+<style>
 
-            <input type="text" class="form-control" placeholder="Wyszukaj..."
-                   @bind="Filter"
-                   @bind:event="oninput" />
+    .search-box {
+        position: sticky;
+        top:0;
+    }
+
+    .card-img-top {
+        height: auto;
+    }
+   
+
+</style>
+
+<div class="search-box">
+    <div class="container">
+        <div class="col-md-auto">
+            <div class="input-group-prepend">
+                <select class="custom-select" style="width: 130px;" name="City" @bind="City">
+                    <option value="all">all</option>
+                    <option value="Prabuty">Prabuty</option>
+                    <option value="Kwidzyn">Kwidzyn</option>
+                    <option value="Susz">Susz</option>
+                </select>
+
+                <input type="text" class="form-control" placeholder="Wyszukaj..."
+                       @bind="Filter"
+                       @bind:event="oninput" />
+            </div>
         </div>
     </div>
+    <hr />
 </div>
-<hr />
+
+
+
 
 @if ((City == null) || (City == "all"))
 {
     @if (products == null)
     {
-        <p>Wczytauje Dane...</p>
+        <p>Wczytuje Dane...</p>
 
     }
     else
     {
-        <div class="container">
 
-            <div class="card-columns">
+    <div class="container py-5 bg-faded">
 
-                @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
-                {
-                    if (!IsVisible(pro))
-                        continue;
+        <div class="row">
 
+            @foreach (var pro in products.OrderBy(products => products.CreationDate).Take(limit))
+            {
+                if (!IsVisible(pro))
+                    continue;
+                <div class="col-sm-3">
                     <div class="card">
                         @if (pro.Image is null)
                         {
-                            <img class="card-img-top" src="/css/static/kot.jpg" alt="Card image cap">
+                            <img class="img-fluid" src="/css/static/kot.jpg" alt="Card image cap">
                         }
                         else
                         {
-                            <img class="card-img-top" src="@convertImageToDisplay(pro.Image)" />
+                            <img class="img-fluid" src="@convertImageToDisplay(pro.Image)"  />
                         }
 
                         <div class="card-body">
@@ -65,17 +84,25 @@
                         </div>
                     </div>
                     <br />
+                </div>
 
-                }
-            </div>
-            <div class="col-md-auto">
+
+
+
+            }
+
+        </div>
+        @if (products.Count() > limit)
+        {
+            <div class="row justify-content-center">
 
                 <button class="btn btn-success" @onclick="AddCards">Pokaż więcej</button>
 
             </div>
+        }
 
 
-        </div>
+    </div>
 
     }
 }
@@ -86,21 +113,24 @@
 @code
 {
     IEnumerable<Product> products;
+    
 
     public string Filter { get; set; }
     public string City { get; set; }
-    public int limit = 5;
+    public int limit = 8;
+
 
     protected override async Task OnInitializedAsync()
     {
 
         products = await ProductService.GetProductsFromTwoWeeks();
+        
 
     }
 
     void AddCards()
     {
-        limit = limit + 5;
+        limit = limit + 8;
     }
 
     public bool IsVisible(Product product)
@@ -125,16 +155,11 @@
 
             var base64 = Convert.ToBase64String(image);
             var fs = string.Format("data:image/jpg;base64,{0}", base64);
-            
+
             return fs;
         }
         return "";
     }
-
-
-    
-
-
 
 
 }
