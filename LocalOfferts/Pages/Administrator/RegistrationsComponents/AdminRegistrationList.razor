@@ -10,7 +10,7 @@
 
 @if (registrations == null)
 {
-    <p>Loading..</p>
+    <p style="text-align:center;">Wczytywanie danych...</p>
 
 }
 else
@@ -47,7 +47,7 @@ else
                             <td>@form.PhoneNumber</td>
                             <td>@form.City</td>
                             <td>
-                                <a href='/adminregistrationlistdelete/@form.id'>Delete</a>
+                                <a href='/adminregistrationlistdelete/@form.id'>Usuń</a>
                             </td>
                         </tr>
                     }

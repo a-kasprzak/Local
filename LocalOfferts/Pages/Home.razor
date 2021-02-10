@@ -16,14 +16,14 @@
     <div class="box">
         <div class="col-md-auto">
             <div class="input-group-prepend">
-                <select class="custom-select" style="width: 130px; border-color:#4596d0; border-radius:15px;" name="City" @bind="City">
+                <select class="custom-select" style="width: 130px; border-radius: 10px;" name="City" @bind="City">
                     <option value="Wszystkie">Wszystkie</option>
                     <option value="Prabuty">Prabuty</option>
                     <option value="Kwidzyn">Kwidzyn</option>
                     <option value="Susz">Susz</option>
                 </select>
 
-                <input type="text" class="form-control"  style="border-color: #4596d0; border-radius: 15px;" placeholder="Wyszukaj..."
+                <input type="text" class="form-control"  style="border-radius: 10px;" placeholder="Wyszukaj..."
                        @bind="Filter"
                        @bind:event="oninput" />
             </div>

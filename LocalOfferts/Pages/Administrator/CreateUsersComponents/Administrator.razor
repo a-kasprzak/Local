@@ -7,7 +7,7 @@
 
 
 <div>
-    <h2 class="text-black-50 text-center "> Administrator  </h2>
+    <h2 class="text-black-50 text-center "> Panel Administratora </h2>
     <br />
 </div>
 <AuthorizeView Roles="Administrators">
@@ -21,7 +21,7 @@
                         <th>Id</th>
                         <th>User Name</th>
                         <th>Email</th>
-                        <th> Edit </th>
+                        <th>Edytuj </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,7 +94,7 @@
                                 <!-- Button to save the user -->
                                 <button class="btn btn-primary"
                                         @onclick="SaveUser">
-                                    Save
+                                    Zapisz
                                 </button>
                                 <!-- Only show delete button if not a new record -->
                                 @if (objUser.Id != "")
@@ -102,7 +102,7 @@
                                     <!-- Button to delete the forecast -->
                                     <button class="btn btn-danger"
                                             @onclick="DeleteUser">
-                                        Delete
+                                        Usuń
                                     </button>
                                 }
                                 <br />
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             }
-            <button class="btn btn-success" @onclick="AddNewUser">Add User</button>
+            <button class="btn btn-success" @onclick="AddNewUser">Dodaj użytkownika</button>
         }
         else
         {
@@ -120,7 +120,7 @@
         }
     </Authorized>
     <NotAuthorized>
-        <p>You're not loggged in.</p>
+        <p>Nie jesteś zalogowany.</p>
     </NotAuthorized>
 </AuthorizeView>
 @code {
