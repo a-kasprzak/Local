@@ -16,9 +16,11 @@ namespace LocalOfferts.Data
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Nazwa sklepu jest wymagana")]
+        [MinLength(2, ErrorMessage = "Wpisana nazwa sklepu jest zbyt krótka")]
         public string ShopName { get; set; }
 
         [Required(ErrorMessage = "Nazwa miasta jest wymagana")]
+        [MinLength(2, ErrorMessage = "Wpisane miasto jest zbyt krótkie")]
         public string City { get; set; }
 
         [Required(ErrorMessage = "Mumer telefonu jest wymagany")]
@@ -29,6 +31,7 @@ namespace LocalOfferts.Data
         public DateTime CreationDate { get; set; }
 
         [Required(ErrorMessage = "Adres email jest wymagany ")]
+        [MinLength(2, ErrorMessage = "Wpisane email jest niepoprawny")]
         [EmailAddress]
         public string Email { get; set; }
 

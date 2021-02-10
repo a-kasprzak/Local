@@ -18,7 +18,7 @@
 
         @if (products == null)
         {
-            <p>Ładowanie danych...</p>
+            <p style="text-align:center;">Ładowanie danych...</p>
         }
         else
         {
@@ -48,7 +48,7 @@
                             <td>@product.UserName</td>
                             <td>@product.ShopeName</td>
                             <td>
-                                <a href='/AdminDeleteProduct/@product.ProductId'>Delete</a>
+                                <a href='/AdminDeleteProduct/@product.ProductId'>Usuń</a>
                                 <a href='/admineditproduct/@product.ProductId'>Edytuj</a>
                             </td>
                         </tr>
@@ -60,7 +60,7 @@
     </Authorized>
     <NotAuthorized>
         <h1>Authentication Failure!</h1>
-        <p>You're not signed in.</p>
+        <p>Nie jesteś zalogowany!</p>
     </NotAuthorized>
 </AuthorizeView>
 

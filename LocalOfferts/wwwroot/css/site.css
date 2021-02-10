@@ -17,6 +17,22 @@ html, body {
     border-color: #1861ac;
 }
 
+.search-box {
+    position: sticky;
+    top: 10px;
+    z-index: 10000;
+}
+
+.box {
+    position: static;
+}
+
+
+
+.card-img-top {
+    height: auto;
+}
+
 .avatar {
     vertical-align: middle;
     width: 60%;
