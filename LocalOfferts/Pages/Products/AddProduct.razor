@@ -152,6 +152,7 @@ else
                                         <option value="">Wybierz z listy...</option>
                                         <option value="Odzież">Odzież</option>
                                         <option value="Elekronika">Elekronika</option>
+                                        <option value="Żywność">Żywność</option>
                                         <option value="Inne">Inne</option>
                                     </InputSelect>
                                     <ValidationMessage For="@(()=> product.ProductType)"></ValidationMessage>
@@ -162,8 +163,7 @@ else
                                     <InputSelect class="form-control" @bind-Value="product.City">
                                         <option value="">Wybierz z listy...</option>
                                         <option value="Prabuty">Prabuty</option>
-                                        <option value="Kwidzyn">Kwidzyn</option>
-                                        <option value="Żywność">Żywność</option>
+                                        <option value="Kwidzyn">Kwidzyn</option>                                    
                                         <option value="Susz">Susz</option>
                                     </InputSelect>
                                     <ValidationMessage For="@(()=> product.City)"></ValidationMessage>
